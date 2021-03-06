@@ -52,7 +52,7 @@ client_replay: []
 command_history: true
 
 # Location of the default mitmproxy configuration files. Type str.
-confdir: ./confdir
+confdir: ./configuration
 
 # The default content view mode. Valid values are 'auto', 'raw', 'hex',
 # 'json', 'xml/html', 'wbxml', 'javascript', 'css', 'url-encoded',
