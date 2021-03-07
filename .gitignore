@@ -1,7 +1,12 @@
 # .gitignore
+
+# mitmproxy certs
 mitmproxy-ca-cert.p12
 mitmproxy-ca.p12
 mitmproxy-dhparam.pem
 mitmproxy-ca-cert.cer
 mitmproxy-ca-cert.pem
 mitmproxy-ca.pem
+
+# python
+__pycache__
