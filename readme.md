@@ -15,3 +15,7 @@ A package for intercepting traffic from the WiiU and 3DS
 - Configure your console to connect to the proxy
 
 For use with Pretendo run with the option `--scripts ./pretendo_addon.py`. This will add the custom `pretendo_redirect` and `pretendo_http` options
+
+## Known issues
+
+- WiiU eShop does not work (crashes on boot)
