@@ -4,8 +4,10 @@
 listen_port: 2240
 web_port: 8088
 
-# These settings make sure that connections are not blocked because they use an old version of TLS. This was probably the most annoying problem to solve for me. 
-# Note that not all of these settings are actually used; some are just for compatability with older versions and are ignored.
+# These settings make sure that connections are not blocked because they use an
+# old version of TLS. This was probably the most annoying problem to solve for
+# me. Note that not all of these settings are actually used; some are just for
+# compatability with older versions and are ignored.
 ssl_insecure: true
 upstream_cert: false
 tls_version_server_min: UNBOUNDED
@@ -15,7 +17,7 @@ ssl_version_client: all
 ciphers_client: all
 ciphers_server: all
 
-# These just make sure that the right configuration files and certificates are loaded. 
+# These just make sure that the right configuration files and certs are loaded.
 client_certs: ./client-certificates
 confdir: ./configuration
 
@@ -25,7 +27,7 @@ scripts: ./pretendo_addon.py
 # This simply attempts makes sure that no requests are cached.
 anticache: true
 
-# Just convenience features
+# A couple convenience features
 console_focus_follow: true
 showhost: true
 console_palette: dark
