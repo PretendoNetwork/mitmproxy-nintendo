@@ -25,7 +25,7 @@ class PretendoAddon:
         # The account server
         if "account.nintendo.net" in flow.request.host:
             flow.request.host = flow.request.host.replace("nintendo.net", "pretendo.cc")
-            flow.request.port = 7070
+            flow.request.port = 8080
 
             if ctx.options.pretendo_http:
                 flow.request.scheme = "http"
