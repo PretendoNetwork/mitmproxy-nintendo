@@ -39,7 +39,7 @@ cd PretendoNetwork
 
 # Start by downloading the relevant GitHub repositories
 echo -e $title"Cloning the server repositories from GitHub"$reset
-repositories=("account" "BOSS" "friends-authentication" "friends-secure" "Grove" "juxt-web" "olv-api" "SOAP" "super-mario-maker-authentication" "super-mario-maker-secure" "wiiu-chat-authentication" "wiiu-chat-secure")
+repositories=("account" "BOSS" "friends-authentication" "friends-secure" "Grove" "juxt-web" "mk7-authentication" "mk7-secure" "mk8-authentication" "mk8-secure" "olv-api" "SOAP" "super-mario-maker-authentication" "super-mario-maker-secure" "wiiu-chat-authentication" "wiiu-chat-secure")
 for repo in ${repositories[@]}; do 
     echo -e $subtitle"Cloning repository PretendoNetwork/$repo"$reset
     echo git clone --depth 1 https://github.com/PretendoNetwork/$repo
