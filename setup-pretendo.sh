@@ -39,16 +39,11 @@ cd PretendoNetwork
 
 # Start by downloading the relevant GitHub repositories
 echo -e $title"Cloning the server repositories from GitHub"$reset
-git clone --depth 1 https://github.com/PretendoNetwork/account
-git clone --depth 1 https://github.com/PretendoNetwork/BOSS
-git clone --depth 1 https://github.com/PretendoNetwork/friends-authentication
-git clone --depth 1 https://github.com/PretendoNetwork/friends-secure
-git clone --depth 1 https://github.com/PretendoNetwork/Grove
-git clone --depth 1 https://github.com/PretendoNetwork/juxt-web
-git clone --depth 1 https://github.com/PretendoNetwork/olv-api
-git clone --depth 1 https://github.com/PretendoNetwork/SOAP
-git clone --depth 1 https://github.com/PretendoNetwork/super-mario-maker-authentication
-git clone --depth 1 https://github.com/PretendoNetwork/super-mario-maker-secure
+repositories=("account" "BOSS" "friends-authentication" "friends-secure" "Grove" "juxt-web" "olv-api" "SOAP" "super-mario-maker-authentication" "super-mario-maker-secure")
+for repo in ${repositories[@]}; do 
+    echo -e $subtitle"Cloning repository PretendoNetwork/$repo"$reset
+    echo git clone --depth 1 https://github.com/PretendoNetwork/$repo
+done
 
 # Then download the Go libraries
 echo -e $title"Downloading the Go libraries"$reset
