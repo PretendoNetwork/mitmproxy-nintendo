@@ -22,7 +22,7 @@ client_certs: ./client-certificates
 confdir: ./configuration
 
 # This enables the Pretendo redirection script.
-scripts: ./pretendo_addon.py
+scripts: ["./pretendo_addon.py"]
 
 # This simply attempts makes sure that no requests are cached.
 anticache: true
