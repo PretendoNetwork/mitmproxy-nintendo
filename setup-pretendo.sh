@@ -28,6 +28,7 @@ if [ -d ./PretendoNetwork ]; then
 fi
 
 # Everything should be set up fine now. It is time to actually start the setup.
+echo -e "\n"
 echo -e $title"Ready to start downloading the Pretendo files!"$reset
 read -p "Would you like to continue? [y/N] " -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 1; fi
@@ -42,7 +43,7 @@ echo -e $title"Cloning the server repositories from GitHub"$reset
 repositories=("account" "BOSS" "friends-authentication" "friends-secure" "Grove" "juxt-web" "mk7-authentication" "mk7-secure" "mk8-authentication" "mk8-secure" "olv-api" "SOAP" "super-mario-maker-authentication" "super-mario-maker-secure" "wiiu-chat-authentication" "wiiu-chat-secure")
 for repo in ${repositories[@]}; do 
     echo -e $subtitle"Cloning repository PretendoNetwork/$repo"$reset
-    echo git clone --depth 1 https://github.com/PretendoNetwork/$repo
+    git clone --depth 1 https://github.com/PretendoNetwork/$repo
 done
 
 # Then download the Go libraries
