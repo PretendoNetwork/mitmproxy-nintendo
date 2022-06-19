@@ -12,10 +12,6 @@ ssl_insecure: true
 upstream_cert: false
 tls_version_server_min: UNBOUNDED
 tls_version_client_min: UNBOUNDED
-ssl_version_server: all
-ssl_version_client: all
-ciphers_client: all
-ciphers_server: all
 
 # These just make sure that the right configuration files and certs are loaded.
 client_certs: ./client-certificates
