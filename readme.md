@@ -6,7 +6,7 @@ A package for intercepting traffic from the WiiU and 3DS
 
 - mitmproxy (https://mitmproxy.org/)
 - a *nix system (macos, linux, untested on WSL)
-- SSL patches for your console ([3DS SSL Patch](https://github.com/InternalLoss/3DS-SSL-Patch), [WiiU SSL Patch](https://github.com/PretendoNetwork/network-installer/tree/nossl-5.5.5))
+- SSL patches for your console ([3DS SSL Patch](https://github.com/InternalLoss/3DS-SSL-Patch), [WiiU SSL Patch](https://github.com/PretendoNetwork/Nimble/releases))
   - Alternatively, you can replace the `CACERT_NINTENDO_CA_G3.der` file with the mitmproxy CA cert.
 
 ## Usage
