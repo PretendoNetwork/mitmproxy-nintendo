@@ -14,7 +14,7 @@ tls_version_server_min: UNBOUNDED
 tls_version_client_min: UNBOUNDED
 
 # These just make sure that the right configuration files and certs are loaded.
-client_certs: ./client-certificates
+client_certs: ./client-certificates/WiiU-common.pem
 confdir: ./configuration
 
 # This enables the Pretendo redirection script.
