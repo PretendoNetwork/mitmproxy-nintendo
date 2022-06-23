@@ -16,9 +16,3 @@ A package for intercepting traffic from the WiiU and 3DS
 - Configure your console to connect to the proxy
 
 Running the launcher script will now automatically load the Pretendo addon script.  This will add the custom `pretendo_redirect` and `pretendo_http` options to mitmproxy.
-
-## Known issues
-
-- WiiU eShop does not work (crashes on boot)
-- Occasionally, a site will not work and cause a certificate warning in the mitmproxy logs. If this happens, go into the client-certificate directory of this repository and create a symbolic link to ctr-common-1.pem if you are using a 3DS or WIIU_COMMON_CERT_1.pem if you are using a Wii U named \<nintendo domain that you cannot connect to\>.pem and try again.
-- It is not possible to use SSLv3 or SSLv2 using the latest version of mitmproxy with OpenSSL. This might cause problems with certain servers. There is currently no workaround for this because OpenSSL 1.1.x has completely removed support for old versions of SSL.
