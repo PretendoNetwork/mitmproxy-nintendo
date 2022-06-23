@@ -5,11 +5,8 @@ listen_port: 2240
 web_port: 8088
 
 # These settings make sure that connections are not blocked because they use an
-# old version of TLS. This was probably the most annoying problem to solve for
-# me. Note that not all of these settings are actually used; some are just for
-# compatability with older versions and are ignored.
+# old version of TLS.
 ssl_insecure: true
-upstream_cert: false
 tls_version_server_min: UNBOUNDED
 tls_version_client_min: UNBOUNDED
 
