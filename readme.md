@@ -24,3 +24,20 @@ Running the launcher script will now automatically load the Pretendo addon scrip
 3. Upload the created `CACERT_NINTENDO_CA_G3.der` file to `/storage_mlc/sys/title/0005001b/10054000/content/scerts`, replacing the original file.
 
 To undo this modification, just upload the backup files back to the `content` folder.
+
+### Using a custom version of OpenSSL with mitmproxy
+
+1. Install mitmproxy normally with `pip install mitmproxy`.
+2. Get the [latest version](https://www.openssl.org/source/) of **OpenSSL 1.1.1** and download it with `curl https://www.openssl.org/source/openssl-1.1.1(version).tar.gz | tar xz; cd openssl-1.1.1(version)`
+3. Compile OpenSSL and Python cryptography according to the  [Python cryptography module documentation](https://cryptography.io/en/latest/installation/#build-on-linux):
+```
+sudo apt-get install build-essential libffi-dev python3-dev cargo -y
+sudo apt-get remove libssl-dev -y
+./config -Wl,-Bsymbolic-functions -fPIC shared
+sudo make -j8
+sudo make install_sw
+openssl version
+hash -r
+pip install cryptography --no-binary cryptography --force
+```
+Running `mitmproxy --version` should now show the custom version of OpenSSL.
