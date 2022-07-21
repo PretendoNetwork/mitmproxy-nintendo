@@ -1,8 +1,11 @@
 # See https://docs.mitmproxy.org/stable/concepts-options/ for documentation
 
 # An easy-to-remember port that should not conflict with anything
-listen_port: 2240
-web_port: 8088
+listen_port: 8888
+web_port: 8089
+mode: reverse:http://127.0.0.1:81
+keep_host_header: true
+block_global: false
 
 # These settings make sure that connections are not blocked because they use an
 # old version of TLS.
@@ -16,6 +19,7 @@ confdir: ./configuration
 
 # This enables the Pretendo redirection script.
 scripts: ["./pretendo_addon.py"]
+pretendo_redirect: true
 
 # This simply attempts makes sure that no requests are cached.
 anticache: true
