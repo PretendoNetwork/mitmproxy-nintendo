@@ -20,7 +20,7 @@ class PretendoAddon:
     def request(self, flow: http.HTTPFlow) -> None:
         if ctx.options.pretendo_redirect:
             if 'nintendo.net' in flow.request.pretty_host:
-                flow.request.host = flow.request.pretty_host.replace('nintendo.net', 'pretendo.cc')
+                flow.request.host_header = flow.request.pretty_host.replace('nintendo.net', 'pretendo.cc')
 
             if ctx.options.pretendo_http:
                 flow.request.scheme = 'http'
