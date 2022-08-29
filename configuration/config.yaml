@@ -7,6 +7,9 @@ mode: reverse:http://127.0.0.1:81
 keep_host_header: true
 block_global: false
 
+# Disable HTTP/2 support, as it seems buggy and is not necessary
+http2: false
+
 # These settings make sure that connections are not blocked because they use an
 # old version of TLS.
 ssl_insecure: true
@@ -21,10 +24,8 @@ confdir: ./configuration
 scripts: ["./pretendo_addon.py"]
 pretendo_redirect: true
 
-# This simply attempts makes sure that no requests are cached.
-anticache: true
-
 # A couple convenience features
 console_focus_follow: true
 showhost: true
 console_palette: dark
+console_layout: vertical
