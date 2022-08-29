@@ -10,12 +10,6 @@ block_global: false
 # Disable HTTP/2 support, as it seems buggy and is not necessary
 http2: false
 
-# These settings make sure that connections are not blocked because they use an
-# old version of TLS.
-ssl_insecure: true
-tls_version_server_min: UNBOUNDED
-tls_version_client_min: UNBOUNDED
-
 # These just make sure that the right configuration files and certs are loaded.
 client_certs: ./client-certificates/WiiU-common.pem
 confdir: ./configuration
