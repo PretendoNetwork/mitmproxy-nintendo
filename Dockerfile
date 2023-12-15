@@ -42,3 +42,6 @@ FROM mitmproxy/mitmproxy:latest AS mitmproxy
 ARG openssl_dir cryptography_dir
 COPY --from=openssl-build ${openssl_dir} ${openssl_dir}
 COPY --from=openssl-build ${cryptography_dir}/venv/lib /usr/local/lib
+WORKDIR /home/mitmproxy
+COPY . .
+EXPOSE 8080 8081
