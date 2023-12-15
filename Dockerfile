@@ -16,8 +16,9 @@ FROM mitmproxy/mitmproxy:latest AS openssl-build
 ARG openssl_version openssl_dir openssl_config_dir cryptography_dir
 
 # Install build dependencies
-RUN apt update
-RUN apt install -y curl build-essential libffi-dev pkg-config
+RUN apt update && \
+    apt install -y \
+    curl build-essential libffi-dev pkg-config
 RUN curl https://sh.rustup.rs | sh -s -- -y
 
 # Download and compile OpenSSL
