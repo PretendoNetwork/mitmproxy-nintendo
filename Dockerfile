@@ -1,31 +1,43 @@
+# syntax=docker/dockerfile:1
+
 # The official mitmproxy image uses OpenSSL 3.0.x, which has older versions of
 # the SSL and TLS protocols disabled. Unfortunately, the Wii U does not support
-# the newer protocols, so we need to compile a custom version of OpenSSL that
-# has the older protocols enabled and link it to the Python cryptography
-# package. Then, we copy our build of OpenSSL and cryptography to the mitmproxy
-# container. This is definitely a hack, but it seems to work.
-FROM debian:bookworm AS openssl-build
-ARG openssl_version="1.1.1w" openssl_prefix="/opt/openssl" openssl_dir="/usr/lib/ssl"
+# newer protocols, so we need to compile a custom version of OpenSSL that has
+# the older protocols enabled and link it to the Python cryptography package.
+# Then, we copy our build of OpenSSL and cryptography to the final mitmproxy
+# container. This is definitely a hack, but it seems to work fine in a container.
+
+ARG openssl_version="1.1.1w" openssl_dir="/opt/openssl" \
+    openssl_config_dir="/usr/lib/ssl" cryptography_dir="/opt/cryptography"
+
+# We use the mitmproxy image for the build stage to ensure that all dependencies
+# are at the right versions, even though mitmproxy itself is not used here.
+FROM mitmproxy/mitmproxy:latest AS openssl-build
+ARG openssl_version openssl_dir openssl_config_dir cryptography_dir
 
 # Install build dependencies
 RUN apt update
-RUN apt install -y curl build-essential python3 python3-dev python3-pip python3-venv libffi-dev cargo pkg-config
+RUN apt install -y curl build-essential libffi-dev pkg-config
+RUN curl https://sh.rustup.rs | sh -s -- -y
 
 # Download and compile OpenSSL
 RUN curl https://www.openssl.org/source/openssl-${openssl_version}.tar.gz | tar -xvz -C /tmp
 WORKDIR /tmp/openssl-${openssl_version}
-RUN ./config --prefix=${openssl_prefix} --openssldir=${openssl_dir} -Wl,-Bsymbolic-functions -fPIC shared
+RUN ./config --prefix=${openssl_dir} --openssldir=${openssl_config_dir} -Wl,-Bsymbolic-functions -fPIC shared
 RUN make -j $(nproc)
 RUN make install_sw
 
 # Create Python cryptography environment
-WORKDIR /opt
-ENV OPENSSL_DIR=${openssl_prefix}
-RUN python3 -m venv cryptography
-RUN . ./cryptography/bin/activate && python3 -m pip install cryptography --no-binary cryptography
+WORKDIR ${cryptography_dir}
+ENV PATH="/root/.cargo/bin:${PATH}"
+ENV OPENSSL_DIR=${openssl_dir}
+RUN python3 -m venv venv
+RUN . ${cryptography_dir}/venv/bin/activate && \
+    python3 -m pip install cryptography --no-binary cryptography -v
 
-# This is the main mitmproxy image that will be run
+# This is the main mitmproxy container that will be run. We use a new image so
+# the build tools are not left over in the final image.
 FROM mitmproxy/mitmproxy:latest AS mitmproxy
-ARG openssl_prefix="/opt/openssl"
-COPY --from=openssl-build ${openssl_prefix} ${openssl_prefix}
-COPY --from=openssl-build /opt/cryptography/lib /usr/local/lib
+ARG openssl_dir cryptography_dir
+COPY --from=openssl-build ${openssl_dir} ${openssl_dir}
+COPY --from=openssl-build ${cryptography_dir}/venv/lib /usr/local/lib
