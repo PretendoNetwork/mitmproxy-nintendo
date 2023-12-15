@@ -1,14 +1,14 @@
 # See https://docs.mitmproxy.org/stable/concepts-options/ for documentation
 
 # An easy-to-remember port that should not conflict with anything
-listen_port: 2240
-web_port: 8088
+listen_port: 8888
+web_port: 8089
+mode: reverse:http://127.0.0.1:81
+keep_host_header: true
+block_global: false
 
-# These settings make sure that connections are not blocked because they use an
-# old version of TLS.
-ssl_insecure: true
-tls_version_server_min: UNBOUNDED
-tls_version_client_min: UNBOUNDED
+# Disable HTTP/2 support, as it seems buggy and is not necessary
+http2: false
 
 # These just make sure that the right configuration files and certs are loaded.
 client_certs: ./client-certificates/WiiU-common.pem
@@ -16,11 +16,10 @@ confdir: ./configuration
 
 # This enables the Pretendo redirection script.
 scripts: ["./pretendo_addon.py"]
-
-# This simply attempts makes sure that no requests are cached.
-anticache: true
+pretendo_redirect: true
 
 # A couple convenience features
 console_focus_follow: true
 showhost: true
 console_palette: dark
+console_layout: vertical
