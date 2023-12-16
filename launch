@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd "$(realpath --no-symlinks "$(dirname "$0")")"
-$(basename "$0") --set confdir="./configuration" "$@"
+$(basename "$0") --set confdir="./.mitmproxy" "$@"

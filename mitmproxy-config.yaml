@@ -3,10 +3,10 @@
 listen_port: 8080
 web_port: 8081
 
-# This makes sure that the right configuration files and certs are loaded.
+# Make sure that the right configuration files and certs are loaded
 client_certs: ./client-certificates/WiiU-common.pem
-confdir: ./configuration
+confdir: ./.mitmproxy
 
-# This enables the Pretendo redirection script.
+# Enable the Pretendo redirection script
 scripts: ["../pretendo_addon.py"]
 pretendo_redirect: true
