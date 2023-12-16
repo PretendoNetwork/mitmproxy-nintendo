@@ -82,7 +82,8 @@ to mitmproxy.
       [3DS](https://github.com/PretendoNetwork/nimbus/releases).
     - Skip creating a PNID on the official Pretendo server if you will be
       hosting your own server.
-    - You'll now need to recompile the patches with your custom certificate
+    - If you want to use Justaposition, you'll now need to recompile the patches
+      with your custom certificate
       ([see below](#compiling-custom-pretendo-patches)).
 2. Configure your console to connect to the proxy using its system settings. Set
    the console's proxy server to your computer's IP address and the port
@@ -111,13 +112,19 @@ Fortunately, it's pretty easy if you use Docker to compile the patches.
 5. Run `docker run -it --rm -v $(pwd)/Inkay:/app -w /app inkay-build` to compile
    the patches.
 6. The compiled patch will be in `./Inkay/Inkay-pretendo.wps`. Copy this patch
-   to your SD card at `sd:/wiiu/environments/aroma/plugins`, replacing the
-   Pretendo patch that is already there.
+   to your SD card over FTPiiU by running
+   `ftp -u ftp://a:a@WIIU_IP/fs/vol/external01/wiiu/environments/aroma/plugins/Inkay-pretendo.wps ./Inkay/Inkay-pretendo.wps`,
+   replacing the `WIIU_IP` with your Wii U's IP address. This will replace the
+   Pretendo patch with your version with custom certificates.
+7. Reboot your Wii U.
 
 Due to Inkay's dependencies, it would be quite difficult to compile the patches
 without using Docker. If you don't want to install Docker, you could try forking
 the Inkay repository on GitHub, editing the `data/ca.pem` file in your fork, and
 building it with GitHub Actions.
+
+If you want to revert back to the regular Pretendo Network patches, redownload
+them from the Inkay repository and upload them back to your Wii U.
 
 #### 3DS
 
