@@ -1,0 +1,7 @@
+# Git and GitHub files
+/.git/
+/.github/
+
+# Local Python environment
+/venv/
+*__pycache__*
