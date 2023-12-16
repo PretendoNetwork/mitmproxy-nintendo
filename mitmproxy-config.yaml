@@ -10,3 +10,14 @@ confdir: ./.mitmproxy
 # Enable the Pretendo redirection script
 scripts: ["../pretendo_addon.py"]
 pretendo_redirect: true
+
+# Allow self-signed certificates
+ssl_insecure: true
+
+# Allow the console to use older TLS versions
+tls_version_client_min: UNBOUNDED
+tls_version_server_min: UNBOUNDED
+
+# A few convenience features
+anticache: true
+showhost: true
