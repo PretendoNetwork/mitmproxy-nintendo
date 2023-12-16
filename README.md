@@ -103,7 +103,7 @@ Fortunately, it's pretty easy if you use Docker to compile the patches.
    (`git clone https://github.com/PretendoNetwork/Inkay.git`)
 2. Copy your mitmproxy certificate.
     - If you're using the Docker container, run
-      `docker run -it -v mitmproxy-pretendo-data:/mnt busybox cat /mnt/mitmproxy-ca-cert.pem`.
+      `docker run -it --rm -v mitmproxy-pretendo-data:/mnt busybox cat /mnt/mitmproxy-ca-cert.pem`.
     - If you're running mitmproxy locally, run
       `cat .mitmproxy/mitmproxy-ca-cert.pem`.
 3. Replace the contents of `./Inkay/data/ca.pem` with your mitmproxy
