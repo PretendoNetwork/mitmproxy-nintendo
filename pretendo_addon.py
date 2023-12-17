@@ -17,14 +17,33 @@ class PretendoAddon:
             help="Sets Pretendo requests to HTTP",
         )
 
+        loader.add_option(
+            name="pretendo_host",
+            typespec=str,
+            default="pretendo.cc",
+            help="Host to send Pretendo requests to (keeps the original host in the Host header)",
+        )
+
+        loader.add_option(
+            name="pretendo_host_port",
+            typespec=int,
+            default=80,
+            help="Port to send Pretendo requests to",
+        )
+
     def request(self, flow: http.HTTPFlow) -> None:
         if ctx.options.pretendo_redirect:
             if 'nintendo.net' in flow.request.pretty_host:
-                flow.request.host_header = flow.request.pretty_host.replace('nintendo.net', 'pretendo.cc')
+                flow.request.host = flow.request.pretty_host.replace('nintendo.net', 'pretendo.cc')
             elif 'nintendowifi.net' in flow.request.pretty_host:
-                flow.request.host_header = flow.request.pretty_host.replace('nintendowifi.net', 'pretendo.cc')
-            elif 'rverse.club' in flow.request.pretty_host:
-                flow.request.host_header = flow.request.pretty_host.replace('rverse.club', 'pretendo.cc')
+                flow.request.host = flow.request.pretty_host.replace('nintendowifi.net', 'pretendo.cc')
+
+            if 'pretendo.cc' in flow.request.pretty_host:
+                flow.request.port = ctx.options.pretendo_host_port
+
+                original_host = flow.request.host_header
+                flow.request.host = ctx.options.pretendo_host
+                flow.request.host_header = original_host
 
             if ctx.options.pretendo_http:
                 flow.request.scheme = 'http'
