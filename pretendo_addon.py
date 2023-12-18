@@ -11,24 +11,24 @@ class PretendoAddon:
         )
 
         loader.add_option(
-            name="pretendo_http",
-            typespec=bool,
-            default=False,
-            help="Sets Pretendo requests to HTTP",
+            name="pretendo_host",
+            typespec=str,
+            default="",
+            help="Host to send Pretendo requests to (keeps the original host in the Host header)",
         )
 
         loader.add_option(
-            name="pretendo_host",
-            typespec=str,
-            default="pretendo.cc",
-            help="Host to send Pretendo requests to (keeps the original host in the Host header)",
+            name="pretendo_http",
+            typespec=bool,
+            default=False,
+            help="Sets Pretendo requests to HTTP (only applies if pretendo_host is set)",
         )
 
         loader.add_option(
             name="pretendo_host_port",
             typespec=int,
             default=80,
-            help="Port to send Pretendo requests to",
+            help="Port to send Pretendo requests to (only applies if pretendo_host is set)",
         )
 
     def request(self, flow: http.HTTPFlow) -> None:
@@ -38,14 +38,14 @@ class PretendoAddon:
             elif 'nintendowifi.net' in flow.request.pretty_host:
                 flow.request.host = flow.request.pretty_host.replace('nintendowifi.net', 'pretendo.cc')
 
-            if 'pretendo.cc' in flow.request.pretty_host:
-                flow.request.port = ctx.options.pretendo_host_port
-
+            if 'pretendo.cc' in flow.request.pretty_host and ctx.options.pretendo_host:
                 original_host = flow.request.host_header
                 flow.request.host = ctx.options.pretendo_host
                 flow.request.host_header = original_host
 
-            if ctx.options.pretendo_http:
-                flow.request.scheme = 'http'
+                flow.request.port = ctx.options.pretendo_host_port
+
+                if ctx.options.pretendo_http:
+                    flow.request.scheme = 'http'
 
 addons = [PretendoAddon()]
