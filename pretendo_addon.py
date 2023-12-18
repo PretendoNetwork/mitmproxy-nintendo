@@ -41,9 +41,8 @@ class PretendoAddon:
             if 'pretendo.cc' in flow.request.pretty_host and ctx.options.pretendo_host:
                 original_host = flow.request.host_header
                 flow.request.host = ctx.options.pretendo_host
-                flow.request.host_header = original_host
-
                 flow.request.port = ctx.options.pretendo_host_port
+                flow.request.host_header = original_host
 
                 if ctx.options.pretendo_http:
                     flow.request.scheme = 'http'
