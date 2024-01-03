@@ -47,7 +47,7 @@ If you want to revert your local image to the published version, run
 ### Running locally
 
 This method can be used if you don't want to install Docker or just generally
-perfer not using Docker.
+prefer not to use Docker.
 
 Note you may run into some issues depending your OpenSSL version. Many current
 Linux distributions now use OpenSSL 3.0.0 instead of 1.1.1. OpenSSL 3.0.0
@@ -82,7 +82,7 @@ to mitmproxy.
      [3DS](https://github.com/PretendoNetwork/nimbus/releases).
    - Skip creating a PNID on the official Pretendo server if you will be hosting
      your own server.
-   - If you want to use Justaposition, you'll now need to recompile the patches
+   - If you want to use Juxtaposition, you'll now need to recompile the patches
      with your custom certificate
      ([see below](#compiling-custom-pretendo-patches)).
 2. Configure your console to connect to the proxy using its system settings. Set
@@ -123,13 +123,13 @@ without using Docker. If you don't want to install Docker, you could try forking
 the Inkay repository on GitHub, editing the `data/ca.pem` file in your fork, and
 building it with GitHub Actions.
 
-If you want to revert back to the regular Pretendo Network patches, redownload
+If you want to revert back to the regular Pretendo Network patches, re-download
 them from the Inkay repository and upload them back to your Wii U.
 
 #### 3DS
 
-I don't think that the 3DS patches support custom certificates because they just
-disable all certificate checks, but I haven't tested this.
+Copy the `mitmproxy-ca-cert.pem` file to your microSD card as
+`sd:/3ds/juxt-prod.pem`.
 
 ### Using a custom version of OpenSSL with mitmproxy
 
