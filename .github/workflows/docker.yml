@@ -7,6 +7,12 @@ on:
 
 jobs:
   build-publish:
+    strategy:
+      matrix:
+        config:
+          - local # Redirect Pretendo requests to a local server (default)
+          - wiiu # For Wii U network dumps
+          - 3ds # For 3DS network dumps
     runs-on: ubuntu-latest
 
     steps:
@@ -16,9 +22,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Set up the ${{ matrix.config }} config
+        run: |
+          rm ./.mitmproxy/config.yaml
+          ln -s ./config-${{ matrix.config }}.yaml ./.mitmproxy/config.yaml
+
       - name: Log into the GitHub container registry
         if:
-          ${{ github.event != 'pull_request' && github.ref == 'refs/heads/main' }}
+          ${{ github.event != 'pull_request' && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -30,7 +41,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor: latest=true
+          flavor: latest=${{ matrix.config == 'local' }}
+          tags: |
+            type=ref,event=branch,enable=${{ matrix.config == 'local' }}
+            type=raw,value=${{ matrix.config }}
+            type=sha
 
       - name: Build and push Docker image
         id: build-and-push
@@ -38,8 +53,7 @@ jobs:
         with:
           context: .
           push:
-            ${{ github.event != 'pull_request' && github.ref ==
-            'refs/heads/main' }}
+            ${{ github.event != 'pull_request' && github.ref == 'refs/heads/master' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
