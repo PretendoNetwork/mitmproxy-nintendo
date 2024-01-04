@@ -11,6 +11,11 @@ confdir: ./.mitmproxy
 scripts: ["../pretendo_addon.py"]
 pretendo_redirect: true
 
+# Set up redirection to a local server
+pretendo_host: nginx
+pretendo_host_port: 80
+pretendo_http: true
+
 # Allow self-signed certificates
 ssl_insecure: true
 
