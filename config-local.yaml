@@ -12,7 +12,7 @@ scripts: ["../pretendo_addon.py"]
 pretendo_redirect: true
 
 # Set up redirection to a local server
-pretendo_host: nginx
+pretendo_host: 127.0.0.1
 pretendo_host_port: 80
 pretendo_http: true
 

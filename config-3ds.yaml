@@ -2,7 +2,7 @@ listen_port: 8083
 web_port: 8081
 web_host: 0.0.0.0
 
-hardump: ./pretendo-network-dump-3ds.har
+hardump: ./dumps/3ds-latest.har
 
 client_certs: ./client-certificates/CTR-common.pem
 ssl_insecure: true

@@ -2,7 +2,7 @@ listen_port: 8082
 web_port: 8081
 web_host: 0.0.0.0
 
-hardump: ./pretendo-network-dump-wiiu.har
+hardump: ./dumps/wiiu-latest.har
 
 client_certs: ./client-certificates/WiiU-common.pem
 ssl_insecure: true
