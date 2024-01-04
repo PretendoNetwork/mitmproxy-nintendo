@@ -45,7 +45,6 @@ jobs:
           tags: |
             type=ref,event=branch,enable=${{ matrix.config == 'local' }}
             type=raw,value=${{ matrix.config }}
-            type=sha
 
       - name: Build and push Docker image
         id: build-and-push
