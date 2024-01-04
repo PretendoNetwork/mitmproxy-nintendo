@@ -1,0 +1,9 @@
+listen_port: 8082
+web_port: 8081
+
+hardump: ./pretendo-network-dump-wiiu.har
+
+client_certs: ./client-certificates/WiiU-common.pem
+ssl_insecure: true
+tls_version_client_min: UNBOUNDED
+tls_version_server_min: UNBOUNDED
