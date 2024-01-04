@@ -2,12 +2,42 @@
 
 This repo contains configurations, scripts, and certificates for using
 `mitmproxy`/`mitmweb`/`mitmdump` to intercept traffic from Nintendo consoles,
-including the Wii U and the 3DS. This fork is designed to work with a local
-Pretendo Network server.
+including the Wii U and the 3DS. It supports multiple operation modes, including
+redirecting requests to a local Pretendo Network server and collecting Wii U and
+3DS network dumps.
 
-## Usage
+## Collecting network dumps
 
-### All setups
+1. Download and install [Docker](https://docs.docker.com/get-docker/).
+2. Download the right patches for your console.
+   <!-- TODO: Which patches? Link them. Also, is it necessary to disable Inkay/Nimbus to use this? -->
+3. Run the container. Use these commands depending on your console.
+   - Wii U: `docker run -it --rm -p 8082:8082 -p 127.0.0.1:8081:8081 ghcr.io/pretendonetwork/mitmproxy-nintendo:wiiu mitmdump`
+   - 3DS: `docker run -it --rm -p 8083:8083 -p 127.0.0.1:8081:8081 ghcr.io/pretendonetwork/mitmproxy-nintendo:3ds mitmdump`
+4. Configure your console to connect to the proxy server.
+   - Wii U:
+      1. Open System Settings => Internet => Connect to the Internet =>
+         Connections => (Your current internet connection) => Change Settings.
+      2. Go to Proxy Settings => Set => OK => (Set the proxy server to your
+         server's IP address and the port to 8080) => Confirm => Don't Use
+         Authentication.
+   - 3DS:
+      1. Open System Settings => Internet Settings => Connection Settings =>
+         (Your current connection) => Change Settings.
+      2. Go to Proxy Settings => Yes => Detailed Setup => (Set the proxy server
+         to your server's IP address and the port to 8080) => OK => Don't Use
+         Authentication.
+5. Check your terminal window to make sure that your console is connecting to the
+   proxy server. You should see "client connect" and "client disonnect"
+   messages.
+6. Do whatever activity you want to have in the network dump.
+7. Press `Ctrl` and `c` at the same time in the terminal window to stop the
+   proxy and create the dump HAR file.
+<!-- TODO: How do get the dump out of the container? Bind mount? -->
+
+## Local server redirection
+
+### Steps
 
 1. Choose a method below to run mitmproxy ([Docker](#running-with-docker) or
    [local install](#running-locally)).
