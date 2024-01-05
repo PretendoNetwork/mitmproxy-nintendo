@@ -1,0 +1,8 @@
+listen_port: 8082
+
+hardump: ./dumps/wiiu-latest.har
+
+client_certs: ./client-certificates/WiiU-common.pem
+ssl_insecure: true
+tls_version_client_min: UNBOUNDED
+tls_version_server_min: UNBOUNDED
