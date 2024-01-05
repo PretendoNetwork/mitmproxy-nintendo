@@ -13,7 +13,11 @@ redirecting requests to a local Pretendo Network server and collecting Wii U and
 2. First, make sure to **disable** Inkay or Nimbus to ensure that you are
    connected to the official Nintendo Network servers. Then, download the right
    NoSSL patches for your console.
-   <!-- TODO: Where are the patches? Link them here. -->
+   - Wii U: Download [this patch](./ssl-patches/30_nossl.rpx) and copy it to
+     your SD card as `sd:/wiiu/environments/aroma/modules/setup/30_nossl.rpx`.
+     (Replace `aroma` with `tiramisu` if you use Tiramisu.)
+   - 3DS: Download [this patch](./ssl-patches/0004013000002F02.ips) and copy it
+     to your microSD card as `sd:/luma/sysmodules/0004013000002F02.ips`.
 3. Configure your console to connect to the proxy server.
    - Wii U:
      1. Open System Settings => Internet => Connect to the Internet =>
@@ -46,8 +50,8 @@ redirecting requests to a local Pretendo Network server and collecting Wii U and
    - **Warning: If you don't rename the dump before restarting the proxy
      container, it will be overwritten!**
 9. Go back to step 4 for your next network dump.
-10. Upload your HAR files to any public channel in the Pretendo Network
-    Discord server to share them with the developers.
+10. Upload your HAR files to any public channel in the Pretendo Network Discord
+    server to share them with the developers.
     - **Note: Make sure to upload the HAR files directly so they can be
       automatically deleted and reuploaded in a private channel for the
       developers. Don't zip the folder.**
