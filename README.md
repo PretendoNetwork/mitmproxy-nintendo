@@ -39,7 +39,10 @@ redirecting requests to a local Pretendo Network server and collecting Wii U and
 6. Do whatever activity you want to have in the network dump.
 7. Press `Control` and `c` in the terminal window to stop the proxy and create
    the dump HAR file in the `dumps` folder.
-8. Rename the HAR file to something descriptive.
+8. Rename the HAR file (`wiiu-latest.har` or `3ds-latest.har`) in the `dumps`
+   folder to something descriptive.
+   - **Warning: If you don't rename the dump before restarting the proxy
+     container, it will be overwritten!**
 9. Go back to step 4 for your next network dump.
 10. Upload your HAR files to the Pretendo Network Discord server to share them
     with the developers.
