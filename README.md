@@ -8,32 +8,47 @@ redirecting requests to a local Pretendo Network server and collecting Wii U and
 
 ## Collecting network dumps
 
-1. Download and install [Docker](https://docs.docker.com/get-docker/).
-2. Download the right patches for your console.
-   <!-- TODO: Which patches? Link them. Also, is it necessary to disable Inkay/Nimbus to use this? -->
-3. Run the container. Use these commands depending on your console.
-   - Wii U: `docker run -it --rm -p 8082:8082 -p 127.0.0.1:8081:8081 ghcr.io/pretendonetwork/mitmproxy-nintendo:wiiu mitmdump`
-   - 3DS: `docker run -it --rm -p 8083:8083 -p 127.0.0.1:8081:8081 ghcr.io/pretendonetwork/mitmproxy-nintendo:3ds mitmdump`
-4. Configure your console to connect to the proxy server.
-   - Wii U:
-      1. Open System Settings => Internet => Connect to the Internet =>
-         Connections => (Your current internet connection) => Change Settings.
-      2. Go to Proxy Settings => Set => OK => (Set the proxy server to your
-         server's IP address and the port to 8080) => Confirm => Don't Use
-         Authentication.
-   - 3DS:
-      1. Open System Settings => Internet Settings => Connection Settings =>
-         (Your current connection) => Change Settings.
-      2. Go to Proxy Settings => Yes => Detailed Setup => (Set the proxy server
-         to your server's IP address and the port to 8080) => OK => Don't Use
-         Authentication.
-5. Check your terminal window to make sure that your console is connecting to the
-   proxy server. You should see "client connect" and "client disonnect"
+1. Download and install Docker using the
+   [official guide](https://docs.docker.com/get-docker/).
+2. First, make sure to **disable** Inkay or Nimbus to ensure that you are
+   connected to the official Nintendo Network servers. Then, download the right
+   NoSSL patches for your console.
+      <!-- TODO: Where are the patches? Link them here. -->
+3. Configure your console to connect to the proxy server.
+    - Wii U:
+        1. Open System Settings => Internet => Connect to the Internet =>
+           Connections => (Your current internet connection) => Change Settings.
+        2. Go to Proxy Settings => Set => OK => (Set the proxy server to your
+           computer's IP address and the port to 8082) => Confirm => Don't Use
+           Authentication.
+    - 3DS:
+        1. Open System Settings => Internet Settings => Connection Settings =>
+           (Your current connection) => Change Settings.
+        2. Go to Proxy Settings => Yes => Detailed Setup => (Set the proxy
+           server to your computer's IP address and the port to 8083) => OK =>
+           Don't Use Authentication.
+4. Copy the command that matches your console and paste it inside a terminal
+   window to start the proxy server inside a Docker container.
+    - Wii U:
+      `docker run -it --rm -p 8082:8082 -v ./dumps:/home/mitmproxy/dumps ghcr.io/pretendonetwork/mitmproxy-nintendo:wiiu mitmdump`
+    - 3DS:
+      `docker run -it --rm -p 8083:8083 -v ./dumps:/home/mitmproxy/dumps ghcr.io/pretendonetwork/mitmproxy-nintendo:3ds mitmdump`
+5. Check your terminal window to make sure that your console is connecting to
+   the proxy server. You should see some "client connect" and "client disonnect"
    messages.
 6. Do whatever activity you want to have in the network dump.
-7. Press `Ctrl` and `c` at the same time in the terminal window to stop the
-   proxy and create the dump HAR file.
-<!-- TODO: How do get the dump out of the container? Bind mount? -->
+7. Press `Control` and `c` in the terminal window to stop the proxy and create
+   the dump HAR file in the `dumps` folder.
+8. Rename the HAR file to something descriptive.
+9. Go back to step 4 for your next network dump.
+10. Upload your HAR files to the Pretendo Network Discord server to share them
+    with the developers.
+    - **Note: Make sure to upload the HAR files directly so they can be
+      automatically processed to scrub personal information. Don't zip them.**
+
+When you are finished with collecting network dumps, go back into your console's
+Internet settings and disable the proxy server. For security reasons, please
+also delete the NoSSL patch you downloaded in step 2.
 
 ## Local server redirection
 
@@ -52,13 +67,13 @@ latest image and is already set up with OpenSSL 1.1.1.
    [official instructions](https://docs.docker.com/get-docker/).
 2. Run a new Docker container using the `ghcr.io/matthewl246/mitmproxy-pretendo`
    image.
-   - If you're not familiar with Docker, copy the `docker run ...` command from
-     [this script](./start-docker.sh) to get started. Then, open
-     <http://127.0.0.1:8081/> in your browser to access the `mitmweb` web
-     interface for mitmproxy.
-   - Note that if you delete the `mitmproxy-pretendo-data` volume, the mitmproxy
-     server certificates will be regenerated and you will need to set up the SSL
-     patches with your custom certificates again.
+    - If you're not familiar with Docker, copy the `docker run ...` command from
+      [this script](./start-docker.sh) to get started. Then, open
+      <http://127.0.0.1:8081/> in your browser to access the `mitmweb` web
+      interface for mitmproxy.
+    - Note that if you delete the `mitmproxy-pretendo-data` volume, the
+      mitmproxy server certificates will be regenerated and you will need to set
+      up the SSL patches with your custom certificates again.
 
 #### Rebuilding the Docker image
 
@@ -69,7 +84,7 @@ If you want to make modifications to the image, you need to rebuild it locally.
 2. Use the `./start-docker.sh` script to build and run the container. This build
    overwrites the version you downloaded from the container registry. This will
    take a few minutes the first time, but it will be cached for future builds.
-   - You need to rebuild the container every time you change something here.
+    - You need to rebuild the container every time you change something here.
 
 If you want to revert your local image to the published version, run
 `docker pull ghcr.io/matthewl246/mitmproxy-pretendo`.
@@ -91,30 +106,30 @@ fail if mitmproxy is using OpenSSL 3.0.0.
 3. Create a virtual environment with `python3 -m venv venv`.
 4. Activate the virtual environment with `. ./venv/bin/activate`.
 5. Install [mitmproxy](https://mitmproxy.org/) with `pip install mitmproxy`.
-   - Test that mitmproxy is working by running `mitmproxy --version`.
-   - If the OpenSSL version is above 3.0.0, the console will fail to connect via
-     HTTPS. Consider using the Docker container instead, or compile a custom
-     version of OpenSSL and Python cryptography
-     ([see below](#using-a-custom-version-of-openssl-with-mitmproxy)).
+    - Test that mitmproxy is working by running `mitmproxy --version`.
+    - If the OpenSSL version is above 3.0.0, the console will fail to connect
+      via HTTPS. Consider using the Docker container instead, or compile a
+      custom version of OpenSSL and Python cryptography
+      ([see below](#using-a-custom-version-of-openssl-with-mitmproxy)).
 6. Run one of the launcher scripts (i.e. `./mitmproxy`) to launch the mitmproxy
    server.
 
-Running the launcher script will now automatically load the Pretendo addon
-script. This will add the custom `pretendo_redirect` and `pretendo_http` options
-to mitmproxy.
+Running the launcher script will automatically load the Pretendo addon script.
+This will add the custom `pretendo_*` options to mitmproxy that allow you to
+redirect HTTP requests to your local server.
 
 ## Console setup
 
 1. Install Pretendo Network patches on your console using
    [the official guide](https://pretendo.network/docs/install):
-   - Download the patches for
-     [Wii U](https://github.com/PretendoNetwork/Inkay/releases) or
-     [3DS](https://github.com/PretendoNetwork/nimbus/releases).
-   - Skip creating a PNID on the official Pretendo server if you will be hosting
-     your own server.
-   - If you want to use Juxtaposition, you'll now need to recompile the patches
-     with your custom certificate
-     ([see below](#compiling-custom-pretendo-patches)).
+    - Download the patches for
+      [Wii U](https://github.com/PretendoNetwork/Inkay/releases) or
+      [3DS](https://github.com/PretendoNetwork/nimbus/releases).
+    - Skip creating a PNID on the official Pretendo server if you will be
+      hosting your own server.
+    - If you want to use Juxtaposition, you'll now need to recompile the patches
+      with your custom certificate
+      ([see below](#compiling-custom-pretendo-patches)).
 2. Configure your console to connect to the proxy using its system settings. Set
    the console's proxy server to your computer's IP address and the port
    to 8080.
@@ -132,10 +147,10 @@ Fortunately, it's pretty easy if you use Docker to compile the patches.
 1. Clone the Inkay patcher
    (`git clone https://github.com/PretendoNetwork/Inkay.git`)
 2. Copy your mitmproxy certificate.
-   - If you're using the Docker container, run
-     `docker run -it --rm -v mitmproxy-pretendo-data:/mnt busybox cat /mnt/mitmproxy-ca-cert.pem`.
-   - If you're running mitmproxy locally, run
-     `cat .mitmproxy/mitmproxy-ca-cert.pem`.
+    - If you're using the Docker container, run
+      `docker run -it --rm -v mitmproxy-pretendo-data:/mnt busybox cat /mnt/mitmproxy-ca-cert.pem`.
+    - If you're running mitmproxy locally, run
+      `cat .mitmproxy/mitmproxy-ca-cert.pem`.
 3. Replace the contents of `./Inkay/data/ca.pem` with your mitmproxy
    certificate.
 4. Run `docker build Inkay -t inkay-build` to build the Inkay build environment.
@@ -171,6 +186,8 @@ compiling OpenSSL 1.1.1. Use the steps to install a custom build of Python
 cryptography in your mitmproxy virtual environment.
 
 ### Permanently replacing server certificates
+
+#### **_Notice: This method is deprecated and unsafe. Use a NoSSL patch instead._**
 
 If you want to intercept your console's HTTPS traffic with mitmproxy all the
 time without using the Pretendo patches, you will need to replace your console's
