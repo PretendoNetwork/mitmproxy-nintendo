@@ -28,7 +28,7 @@ jobs:
       - name: Set up the ${{ matrix.config }} config
         run: |
           rm ./.mitmproxy/config.yaml
-          ln -s ./config-${{ matrix.config }}.yaml ./.mitmproxy/config.yaml
+          ln -s ../config-${{ matrix.config }}.yaml ./.mitmproxy/config.yaml
 
       - name: Log into the GitHub container registry
         if:
