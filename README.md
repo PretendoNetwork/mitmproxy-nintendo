@@ -41,7 +41,7 @@ redirecting requests to a local Pretendo Network server and collecting Wii U and
    the proxy server. You should see some "client connect" and "client disonnect"
    messages.
 6. Do whatever activity you want to have in the network dump.
-7. Press `Control` and `c` in the terminal window to stop the proxy. This will
+7. Press `Control` and `C` in the terminal window to stop the proxy. This will
    create a network dump HAR file in the `dumps` folder, which you can find in
    the current folder that your terminal is running in (if you don't know, run
    the `pwd` command).

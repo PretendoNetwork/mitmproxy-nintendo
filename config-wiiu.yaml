@@ -1,6 +1,4 @@
 listen_port: 8082
-web_port: 8081
-web_host: 0.0.0.0
 
 hardump: ./dumps/wiiu-latest.har
 
