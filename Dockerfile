@@ -19,10 +19,10 @@ ARG openssl_version openssl_dir openssl_config_dir cryptography_dir
 RUN apt update && \
     apt install -y \
     curl build-essential libffi-dev pkg-config
-RUN curl https://sh.rustup.rs | sh -s -- -y
+RUN curl -L https://sh.rustup.rs | sh -s -- -y
 
 # Download and compile OpenSSL
-RUN curl https://www.openssl.org/source/openssl-${openssl_version}.tar.gz | tar -xvz -C /tmp
+RUN curl -L https://www.openssl.org/source/openssl-${openssl_version}.tar.gz | tar -xvz -C /tmp
 WORKDIR /tmp/openssl-${openssl_version}
 RUN ./config --prefix=${openssl_dir} --openssldir=${openssl_config_dir} -Wl,-Bsymbolic-functions -fPIC shared
 RUN make -j $(nproc)
@@ -34,7 +34,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 ENV OPENSSL_DIR=${openssl_dir}
 RUN python3 -m venv venv
 RUN . ${cryptography_dir}/venv/bin/activate && \
-    python3 -m pip install cryptography --no-binary cryptography -v
+    OPENSSL_STATIC=1 OPENSSL_DIR="${OPENSSL_DIR}" python3 -m pip install cryptography --no-binary cryptography -v
 
 # This is the main mitmproxy container that will be run. We use a new image so
 # the build tools are not left over in the final image.
